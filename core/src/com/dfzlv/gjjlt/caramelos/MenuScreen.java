@@ -80,7 +80,7 @@ public class MenuScreen implements Screen{
         Table tableParent = new Table();
         tableParent.setFillParent(true);
 
-        Table table = new Table();
+        //Table table = new Table();
         stage.addActor(tableParent);
 
         Label label = new Label(namegame,uiSkin);
@@ -88,14 +88,14 @@ public class MenuScreen implements Screen{
         labelStyle.font = font12;
         label.setStyle(labelStyle);
 
-        table.add(label);
-        table.row();
-        table.add(textButtonSuperBull).width(400).height(300).pad(10);
-        table.row();
-        table.add(textButtonAbout).width(400).height(75).pad(10);
+        tableParent.add(label);
+        tableParent.row();
+        tableParent.add(textButtonSuperBull).width(450).height(500).pad(10);
+        tableParent.row();
+        tableParent.add(textButtonAbout).width(450).height(100).pad(10);
 
-        tableParent.add(image).width(400).height(225).align(Align.center).pad(10);
-        tableParent.add(table).width(400).pad(10);
+        //tableParent.add(image).width(400).height(225).align(Align.center).pad(10);
+        //tableParent.add(table);//.width(400).pad(10);
 
 
         textButtonSuperBull.addListener(new ChangeListener() {

@@ -134,8 +134,9 @@ public class CaramelosScreen extends InputAdapter implements Screen {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(leftTable).width(300).align(Align.top);
-        table.add(rightTable).width(500);
+        table.add(leftTable).width(480).align(Align.top);
+        table.row();
+        table.add(rightTable).width(480);
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

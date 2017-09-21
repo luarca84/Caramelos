@@ -115,7 +115,7 @@ public class StatusScreen extends InputAdapter implements Screen {
         table.setFillParent(true);
         table.add(imageLogo);
         table.row();
-        table.add(button).width(300).height(200).pad(10);
+        table.add(button).width(450).height(300).pad(10);
         table.row();
 
         stage.addActor(table);

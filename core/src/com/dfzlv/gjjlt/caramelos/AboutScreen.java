@@ -81,8 +81,10 @@ public class AboutScreen extends InputAdapter implements Screen {
         table.row();
         table.add(label2);
         table.row();
-        tableParent.add(image).width(600);
+
         tableParent.add(table);
+        tableParent.row();
+        tableParent.add(image).width(450);
         stage.addActor(tableParent);
 
     }
