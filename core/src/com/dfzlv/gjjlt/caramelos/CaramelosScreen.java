@@ -160,7 +160,19 @@ public class CaramelosScreen extends InputAdapter implements Screen {
             });
             dragAndDrop.addTarget(new DragAndDrop.Target(label) {
                 public boolean drag (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                    getActor().setColor(Color.LIGHT_GRAY);
+                    Label labelSource = (Label) source.getActor();
+                    int indexSource = labelArrayList.indexOf(labelSource);
+                    int indexTarget = labelArrayList.indexOf(label);
+
+                    int rowSource = indexSource/size;
+                    int colSource = indexSource - (indexSource/size)*size;
+                    int rowTarget = indexTarget/size;
+                    int colTarget = indexTarget - (indexTarget/size)*size;
+
+                    if((Math.abs(rowSource-rowTarget)==1 && Math.abs(colSource-colTarget)==0)||
+                            (Math.abs(rowSource-rowTarget)==0 && Math.abs(colSource-colTarget)==1)){
+                        getActor().setColor(Color.LIGHT_GRAY);
+                    }
                     return true;
                 }
 
@@ -169,18 +181,31 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                 }
 
                 public void drop (DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                    System.out.println("Accepted: " + payload.getObject() + " " + x + ", " + y);
-                    Label labelSource = (Label) source.getActor();
-                    String aux = labelSource.getText().toString();
-                    Label.LabelStyle labelStyle = new Label.LabelStyle();
-                    labelStyle.font = font50;
-                    labelStyle.background = labelSource.getStyle().background;
-                    labelSource.setText(label.getText());
-                    labelSource.setStyle(label.getStyle());
-                    label.setText(aux);
-                    label.setStyle(labelStyle);
 
-                    CheckRowsAndColumns();
+                    Label labelSource = (Label) source.getActor();
+                    int indexSource = labelArrayList.indexOf(labelSource);
+                    int indexTarget = labelArrayList.indexOf(label);
+
+                    int rowSource = indexSource/size;
+                    int colSource = indexSource - (indexSource/size)*size;
+                    int rowTarget = indexTarget/size;
+                    int colTarget = indexTarget - (indexTarget/size)*size;
+
+                    if((Math.abs(rowSource-rowTarget)==1 && Math.abs(colSource-colTarget)==0)||
+                    (Math.abs(rowSource-rowTarget)==0 && Math.abs(colSource-colTarget)==1)){
+
+                        System.out.println("Accepted: " + payload.getObject() + " " + x + ", " + y);
+                        String aux = labelSource.getText().toString();
+                        Label.LabelStyle labelStyle = new Label.LabelStyle();
+                        labelStyle.font = font50;
+                        labelStyle.background = labelSource.getStyle().background;
+                        labelSource.setText(label.getText());
+                        labelSource.setStyle(label.getStyle());
+                        label.setText(aux);
+                        label.setStyle(labelStyle);
+
+                        CheckRowsAndColumns();
+                    }
                 }
             });
         }
