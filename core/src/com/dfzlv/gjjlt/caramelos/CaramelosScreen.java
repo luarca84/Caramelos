@@ -32,6 +32,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
     int level;
     int score =0;
     int maxscore = 30;
+    int movements =0;
+    int maxmovements = 20;
     SpriteBatch batch;
     FitViewport viewport;
     ShapeRenderer renderer;
@@ -43,6 +45,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
     ArrayList<Label> labelArrayList;
     String strscore;
     Label labelScore;
+    String strmovements;
+    Label labelMovements;
 
     public CaramelosScreen(CaramelosGame game,int nlevel)
     {
@@ -68,7 +72,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
 
         FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("Vollkorn/Vollkorn-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter2.size = 30;
+        parameter2.size = 25;
         font40 = generator2.generateFont(parameter2); // font size 12 pixels
         generator2.dispose(); // don't forget to dispose to avoid memory leaks!
 
@@ -108,13 +112,16 @@ public class CaramelosScreen extends InputAdapter implements Screen {
         labelStyle2.font = font40;
         String strgame = myBundle.get("game");
         strscore = myBundle.get("menuscore");
+        strmovements = myBundle.get("menumovements");
         String strlevel = myBundle.get("menulevel");
         Label labelGame = new Label(strgame,uiSkin);
         Label labelLevel = new Label(strlevel+": "+level,uiSkin);
-        labelScore = new Label(strscore+": "+score,uiSkin);
+        labelScore = new Label(strscore+": "+score+"/"+maxscore,uiSkin);
+        labelMovements = new Label(strmovements+": "+movements+"/"+maxmovements,uiSkin);
         labelGame.setStyle(labelStyle2);
         labelLevel.setStyle(labelStyle2);
         labelScore.setStyle(labelStyle2);
+        labelMovements.setStyle(labelStyle2);
 
         Table leftTable = new Table();
         leftTable.add(labelGame).align(Align.left);
@@ -122,6 +129,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
         leftTable.add(labelLevel).align(Align.left);
         leftTable.row();
         leftTable.add(labelScore).align(Align.left);
+        leftTable.row();
+        leftTable.add(labelMovements).align(Align.left);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -205,6 +214,9 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                         label.setStyle(labelStyle);
 
                         CheckRowsAndColumns();
+                        CheckRowsAndColumns();//Twice for Random New Cells
+                        movements++;
+                        labelMovements.setText(strmovements+": "+movements+"/"+maxmovements);
                     }
                 }
             });
@@ -229,7 +241,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                             && text.equals(labelArrayList.get(index4).getText().toString()))
                     {
                         score+=4;
-                        labelScore.setText(strscore+": "+score);
+                        labelScore.setText(strscore+": "+score+"/"+maxscore);
                         System.out.println("Score");
                         labelArrayList.get(index1).setVisible(false);
                         labelArrayList.get(index2).setVisible(false);
@@ -250,7 +262,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                             && text.equals(labelArrayList.get(ind4).getText().toString()))
                     {
                         score+=4;
-                        labelScore.setText(strscore+": "+score);
+                        labelScore.setText(strscore+": "+score+"/"+maxscore);
                         System.out.println("Score");
                         labelArrayList.get(ind1).setVisible(false);
                         labelArrayList.get(ind2).setVisible(false);
@@ -266,6 +278,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
     public void render(float delta) {
         if(score >= maxscore)
             game.ShowStatusScreen(true,level);
+        if(movements >= maxmovements)
+            game.ShowStatusScreen(false,level);
         Gdx.gl.glClearColor((float)95/255,(float)10/255,(float)255/255,(float)1.0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
