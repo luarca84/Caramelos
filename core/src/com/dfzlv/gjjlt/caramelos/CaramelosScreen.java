@@ -37,7 +37,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
     ShapeRenderer renderer;
     Stage stage;
     Skin uiSkin;
-    BitmapFont font12;
+    BitmapFont font50;
+    BitmapFont font40;
     int size;
     ArrayList<Label> labelArrayList;
     String strscore;
@@ -61,9 +62,15 @@ public class CaramelosScreen extends InputAdapter implements Screen {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Vollkorn/Vollkorn-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 30;
-        font12 = generator.generateFont(parameter); // font size 12 pixels
+        parameter.size = 55;
+        font50 = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
+
+        FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("Vollkorn/Vollkorn-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter2.size = 30;
+        font40 = generator2.generateFont(parameter2); // font size 12 pixels
+        generator2.dispose(); // don't forget to dispose to avoid memory leaks!
 
         FileHandle baseFileHandle = Gdx.files.internal("Messages/menus");
         String localeLanguage =java.util.Locale.getDefault().toString();
@@ -83,12 +90,12 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                 Color color = calculateColorText.getColor();
                 String text = calculateColorText.getText();
                 Label.LabelStyle labelStyle = new Label.LabelStyle();
-                labelStyle.font = font12;
+                labelStyle.font = font50;
                 labelStyle.background = uiSkin.newDrawable("white", color);
                 final Label label = new Label(text, uiSkin);
                 label.setStyle(labelStyle);
                 label.setAlignment(Align.center);
-                rightTable.add(label).width(60).height(60);
+                rightTable.add(label).width(65).height(65);
 
                 labelArrayList.add(label);
 
@@ -98,7 +105,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
         }
 
         Label.LabelStyle labelStyle2 = new Label.LabelStyle();
-        labelStyle2.font = font12;
+        labelStyle2.font = font40;
         String strgame = myBundle.get("game");
         strscore = myBundle.get("menuscore");
         String strlevel = myBundle.get("menulevel");
@@ -134,7 +141,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                     payload.setObject(label.getText());
 
                     Label.LabelStyle labelStyle3 = new Label.LabelStyle();
-                    labelStyle3.font = font12;
+                    labelStyle3.font = font50;
                     //labelStyle3.background = label.getStyle().background;
                     Label label1 = new Label(label.getText(), uiSkin);
                     label1.setStyle(labelStyle3);
@@ -166,7 +173,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                     Label labelSource = (Label) source.getActor();
                     String aux = labelSource.getText().toString();
                     Label.LabelStyle labelStyle = new Label.LabelStyle();
-                    labelStyle.font = font12;
+                    labelStyle.font = font50;
                     labelStyle.background = labelSource.getStyle().background;
                     labelSource.setText(label.getText());
                     labelSource.setStyle(label.getStyle());
@@ -257,7 +264,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                 Color color = calculateColorText.getColor();
                 String text = calculateColorText.getText();
                 Label.LabelStyle labelStyle = new Label.LabelStyle();
-                labelStyle.font = font12;
+                labelStyle.font = font50;
                 labelStyle.background = uiSkin.newDrawable("white", color);
                 label.setText(text);
                 label.setStyle(labelStyle);
