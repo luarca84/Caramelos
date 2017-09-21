@@ -14,12 +14,15 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -45,6 +48,7 @@ public class StatusScreen extends InputAdapter implements Screen {
     String menucontinue;
     String menugameover;
     int maxNumLevels = 10;
+    //private Container<Image> container;
 
 
     public StatusScreen(CaramelosGame game, boolean victory,int level)
@@ -98,6 +102,15 @@ public class StatusScreen extends InputAdapter implements Screen {
         imageLogo.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Star.png")))));
 
 
+        /*container=new Container<Image>(imageLogo);
+        container.setTransform(true);   // for enabling scaling and rotation
+        container.size(100, 100);
+        container.setOrigin(Align.center);//container.getWidth() / 2, container.getHeight() / 2);
+        container.setPosition(100,100);
+        container.setScale(1);  //scale according to your requirement
+*/
+
+
         Table table = new Table();
         table.setFillParent(true);
         table.add(imageLogo);
@@ -106,6 +119,7 @@ public class StatusScreen extends InputAdapter implements Screen {
         table.row();
 
         stage.addActor(table);
+        //container.addAction(Actions.parallel(/*Actions.moveTo(500, 300, 2.0f),*/Actions.rotate(1.f,1.0f)));//Actions.scaleTo(0.1f, 0.1f,2.0f)));
 
         button.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
@@ -149,6 +163,8 @@ public class StatusScreen extends InputAdapter implements Screen {
             button.setText(menugameover+" "+ menulevel + " "+level+ "\n"+menucontinue);}
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+        imageLogo.setOrigin(imageLogo.getWidth()/2, imageLogo.getHeight()/2);
+        imageLogo.rotateBy(2);
     }
 
     @Override
