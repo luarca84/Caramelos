@@ -2,6 +2,7 @@ package com.dfzlv.gjjlt.caramelos;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -332,12 +333,23 @@ public class CaramelosScreen extends InputAdapter implements Screen {
 
     @Override
     public void pause() {
-
+        Preferences prefs = Gdx.app.getPreferences("MyPreferences");
+        prefs.putInteger("level", level);
+        prefs.putInteger("score", score);
+        prefs.putInteger("maxscore", maxscore);
+        prefs.putInteger("movements", movements);
+        prefs.putInteger("maxmovements", maxmovements);
+        prefs.flush();
     }
 
     @Override
     public void resume() {
-
+        Preferences prefs = Gdx.app.getPreferences("MyPreferences");
+        level = prefs.getInteger("level");
+        score = prefs.getInteger("score");
+        maxscore = prefs.getInteger("maxscore");
+        movements = prefs.getInteger("movements");
+        maxmovements = prefs.getInteger("maxmovements");
     }
 
     @Override
