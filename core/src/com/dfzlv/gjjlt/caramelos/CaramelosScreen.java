@@ -6,12 +6,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -150,11 +153,20 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                     DragAndDrop.Payload payload = new DragAndDrop.Payload();
                     payload.setObject(label.getText());
 
-                    Label.LabelStyle labelStyle3 = new Label.LabelStyle();
-                    labelStyle3.font = font50;
+                    //Label.LabelStyle labelStyle3 = new Label.LabelStyle();
+                    //labelStyle3.font = font50;
                     //labelStyle3.background = label.getStyle().background;
                     Label label1 = new Label(label.getText(), uiSkin);
-                    label1.setStyle(labelStyle3);
+                    //Pixmap labelColor = new Pixmap(65, 65, Pixmap.Format.RGB888);
+                    //labelColor.setColor(Color.BLACK);
+                    //labelColor.fill();
+                    //label1.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
+                    //label1.getStyle().font = font50;
+                    label1.setWidth(65);
+                    label1.setHeight(65);
+                    label1.setStyle(label.getStyle());
+                    //label1.setColor(label.getColor());
+
                     payload.setDragActor(label1);
 
                     /*Label validLabel = new Label("Some payload!", uiSkin);
