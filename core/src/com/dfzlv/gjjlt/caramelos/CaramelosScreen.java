@@ -52,6 +52,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
     ArrayList<Label> labelArrayList;
     String strscore;
     Label labelScore;
+    String strline;
+    Label labelLine;
     String strmovements;
     Label labelMovements;
     Music mp3Music;
@@ -130,17 +132,20 @@ public class CaramelosScreen extends InputAdapter implements Screen {
         Label.LabelStyle labelStyle2 = new Label.LabelStyle();
         labelStyle2.font = font40;
         String strgame = myBundle.get("game");
+        strline = myBundle.get("menuline");
         strscore = myBundle.get("menuscore");
         strmovements = myBundle.get("menumovements");
         String strlevel = myBundle.get("menulevel");
         Label labelGame = new Label(strgame,uiSkin);
         Label labelLevel = new Label(strlevel+": "+level,uiSkin);
+        labelLine = new Label(strline,uiSkin);
         labelScore = new Label(strscore+": "+score+"/"+maxscore,uiSkin);
         labelMovements = new Label(strmovements+": "+movements+"/"+maxmovements,uiSkin);
         labelGame.setStyle(labelStyle2);
         labelLevel.setStyle(labelStyle2);
         labelScore.setStyle(labelStyle2);
         labelMovements.setStyle(labelStyle2);
+        labelLine.setStyle(labelStyle2);
 
         Table leftTable = new Table();
         leftTable.add(labelGame).align(Align.left);
@@ -150,6 +155,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
         leftTable.add(labelScore).align(Align.left);
         leftTable.row();
         leftTable.add(labelMovements).align(Align.left);
+        leftTable.row();
+        leftTable.add(labelLine).align(Align.left);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -278,6 +285,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                         labelArrayList.get(index4).setVisible(false);
                         if(flagSound)
                             mp3Line.play();
+                        Random random = new Random();
+                        labelLine.setColor(new Color(random.nextFloat(),random.nextFloat(),random.nextFloat(),1.0f));
                     }
                 }
 
@@ -301,6 +310,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                         labelArrayList.get(ind4).setVisible(false);
                         if(flagSound)
                             mp3Line.play();
+                        Random random = new Random();
+                        labelLine.setColor(new Color(random.nextFloat(),random.nextFloat(),random.nextFloat(),1.0f));
                     }
                 }
             }
