@@ -6,42 +6,35 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.audio.Music;
 
 import java.util.Locale;
 
 /**
- * Created by USUARIO on 12/09/2017.
+ * Created by USUARIO on 23/09/2017.
  */
-public class MenuScreen implements Screen{
+public class OptionsScreen implements Screen {
     SpriteBatch batch;
     final CaramelosGame game;
-    TextButton textButtonSuperBull;
-    TextButton textButtonAbout;
-    TextButton textButtonOptions;
-    Image image;
+    CheckBox checkBoxSound;
+    TextButton textButtonShowMenu;
     Stage stage;
     FitViewport viewport;
-    Music mp3Music;
-    public boolean flagSound = false;
+    Preferences prefs;
 
-    public MenuScreen(final CaramelosGame game)
+    public OptionsScreen(final CaramelosGame game)
     {
         this.game = game;
         Gdx.input.setCatchBackKey(false);
@@ -52,13 +45,6 @@ public class MenuScreen implements Screen{
 
         Skin uiSkin = new Skin(Gdx.files.internal("UiSkin/uiskin.json"));
 
-        Preferences prefs = Gdx.app.getPreferences("MyPreferences");
-        flagSound = prefs.getBoolean("sound");
-        mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/Intro.mp3"));
-        mp3Music.setLooping(true);
-        if(flagSound){
-            mp3Music.play();
-        }
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Vollkorn/Vollkorn-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -69,75 +55,54 @@ public class MenuScreen implements Screen{
         FileHandle baseFileHandle = Gdx.files.internal("Messages/menus");
         String localeLanguage =java.util.Locale.getDefault().toString();
         Locale locale = new Locale(localeLanguage);
-        I18NBundle myBundle = I18NBundle.createBundle(baseFileHandle, locale,"UTF-8");
-        String namegame = myBundle.get("game");
-        String menustart = myBundle.get("menustart");
-        String menuabout = myBundle.get("menuabout");
-        String menuoptions = myBundle.get("menuoptions");
+        I18NBundle myBundle = I18NBundle.createBundle(baseFileHandle, locale);
+        String nameoptions = myBundle.get("menuoptions");
+        String menuShowMenu = myBundle.get("menumenu");
+        String menusound = myBundle.get("menusound");
 
-        textButtonSuperBull = new TextButton(menustart,uiSkin);
-        textButtonAbout =new TextButton(menuabout,uiSkin);
-        textButtonOptions =new TextButton(menuoptions,uiSkin);
 
+
+        checkBoxSound = new CheckBox(menusound,uiSkin);
+        prefs = Gdx.app.getPreferences("MyPreferences");
+        checkBoxSound.setChecked(prefs.getBoolean("sound"));
+        textButtonShowMenu=new TextButton(menuShowMenu,uiSkin);
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font12;
         textButtonStyle.up = uiSkin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.down = uiSkin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.checked = uiSkin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.over = uiSkin.newDrawable("white", Color.DARK_GRAY);
-        textButtonSuperBull.setStyle(textButtonStyle);
-        textButtonAbout.setStyle(textButtonStyle);
-        textButtonOptions.setStyle(textButtonStyle);
+        textButtonShowMenu.setStyle(textButtonStyle);
 
-        Texture background  = new Texture(Gdx.files.internal("android_libgdx.png"));
-        TextureRegion textureRegion = new TextureRegion(background);
-        image = new Image(textureRegion);
-
-        Table tableParent = new Table();
-        tableParent.setFillParent(true);
-
-        //Table table = new Table();
-        stage.addActor(tableParent);
-
-        Label label = new Label(namegame,uiSkin);
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font12;
-        label.setStyle(labelStyle);
-
-        tableParent.add(label);
-        tableParent.row();
-        tableParent.add(textButtonSuperBull).width(450).height(400).pad(10);
-        tableParent.row();
-        tableParent.add(textButtonOptions).width(450).height(100).pad(10);
-        tableParent.row();
-        tableParent.add(textButtonAbout).width(450).height(100).pad(10);
-
-        //tableParent.add(image).width(400).height(225).align(Align.center).pad(10);
-        //tableParent.add(table);//.width(400).pad(10);
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
 
 
-        textButtonSuperBull.addListener(new ChangeListener() {
+
+        Label label = new Label(nameoptions,uiSkin);
+
+        table.add(label);
+        table.row();
+        table.add(checkBoxSound).pad(10);
+        table.row();
+        table.add(textButtonShowMenu).width(500).height(150).pad(10);
+
+
+        textButtonShowMenu.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                game.ShowSuperBullScreen(1);
-            }
-        });
-
-        textButtonOptions.addListener(new ChangeListener() {
-            public void changed (ChangeEvent event, Actor actor) {
-                game.ShowOptionsScreen();
+                game.ShowMenuScreen();
             }
         });
 
 
-        textButtonAbout.addListener(new ChangeListener() {
-        public void changed (ChangeEvent event, Actor actor) {
-            game.ShowAboutScreen();
-        }
-    });
+        checkBoxSound.addListener(new ChangeListener() {
+            public void changed (ChangeEvent event, Actor actor) {
 
-
-
-
+                prefs.putBoolean("sound",checkBoxSound.isChecked());
+                prefs.flush();
+            }
+        });
     }
 
     @Override
@@ -155,7 +120,6 @@ public class MenuScreen implements Screen{
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
         batch.end();
-        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
 
@@ -178,7 +142,7 @@ public class MenuScreen implements Screen{
 
     @Override
     public void hide() {
-        this.mp3Music.stop();
+
     }
 
     @Override

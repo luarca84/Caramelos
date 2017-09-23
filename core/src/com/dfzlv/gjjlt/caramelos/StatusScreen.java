@@ -2,6 +2,7 @@ package com.dfzlv.gjjlt.caramelos;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -25,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.audio.Music;
 
 import java.util.Locale;
 
@@ -48,6 +50,8 @@ public class StatusScreen extends InputAdapter implements Screen {
     String menucontinue;
     String menugameover;
     int maxNumLevels = 10;
+    Music mp3Music;
+    public boolean flagSound = false;
     //private Container<Image> container;
 
 
@@ -56,6 +60,18 @@ public class StatusScreen extends InputAdapter implements Screen {
         this.game = game;
         this.victory = victory;
         this.level = level;
+
+        Preferences prefs = Gdx.app.getPreferences("My Preferences");
+        flagSound = prefs.getBoolean("sound");
+        if(victory)
+            mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/Victory.mp3"));
+        else{
+            mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/GameOver.mp3"));
+        }
+        mp3Music.setLooping(true);
+        if(flagSound){
+            mp3Music.play();
+        }
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Vollkorn/Vollkorn-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -185,6 +201,7 @@ public class StatusScreen extends InputAdapter implements Screen {
 
     @Override
     public void hide() {
+        mp3Music.stop();
     }
 
     @Override

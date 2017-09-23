@@ -2,7 +2,9 @@ package com.dfzlv.gjjlt.caramelos;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,6 +33,8 @@ public class AboutScreen extends InputAdapter implements Screen {
     FitViewport viewport;
     ShapeRenderer renderer;
     Stage stage;
+    Music mp3Music;
+    public boolean flagSound = false;
 
     public AboutScreen(CaramelosGame game)
     {
@@ -41,6 +45,14 @@ public class AboutScreen extends InputAdapter implements Screen {
     public void show() {
         batch = new SpriteBatch();
         Skin uiSkin = new Skin(Gdx.files.internal("UiSkin/uiskin.json"));
+
+        Preferences prefs = Gdx.app.getPreferences("MyPreferences");
+        flagSound = prefs.getBoolean("sound");
+        mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/Intro.mp3"));
+        mp3Music.setLooping(true);
+        if(flagSound){
+            mp3Music.play();
+        }
 
         viewport = new FitViewport(Constants.DIFFICULTY_WORLD_SIZE_WIDTH, Constants.DIFFICULTY_WORLD_SIZE_HEIGHT);
         renderer = new ShapeRenderer();
@@ -63,7 +75,8 @@ public class AboutScreen extends InputAdapter implements Screen {
 
         stage = new Stage(viewport);
         Label label = new Label(menuabout,uiSkin);
-        Label label2 = new Label("\n"+menudevelopers+":\nluarca84" ,uiSkin);
+        Label label2 = new Label("\n"+menudevelopers+":\nluarca84\n" +
+                "laibach" ,uiSkin);
         label2.setAlignment(Align.center);
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font12;
@@ -118,7 +131,7 @@ public class AboutScreen extends InputAdapter implements Screen {
 
     @Override
     public void hide() {
-
+        this.mp3Music.stop();
     }
 
     @Override

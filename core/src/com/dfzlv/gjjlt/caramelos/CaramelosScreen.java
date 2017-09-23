@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -51,6 +52,9 @@ public class CaramelosScreen extends InputAdapter implements Screen {
     Label labelScore;
     String strmovements;
     Label labelMovements;
+    Music mp3Music;
+    Music mp3Line;
+    public boolean flagSound = false;
 
     public CaramelosScreen(CaramelosGame game,int nlevel)
     {
@@ -63,6 +67,15 @@ public class CaramelosScreen extends InputAdapter implements Screen {
     public void show() {
         batch = new SpriteBatch();
         uiSkin = new Skin(Gdx.files.internal("UiSkin/uiskin.json"));
+
+        Preferences prefs = Gdx.app.getPreferences("MyPreferences");
+        flagSound = prefs.getBoolean("sound");
+        mp3Music = Gdx.audio.newMusic(Gdx.files.internal("Music/Level.mp3"));
+        mp3Music.setLooping(true);
+        if(flagSound){
+            mp3Music.play();
+        }
+        mp3Line = Gdx.audio.newMusic(Gdx.files.internal("Music/Mi.wav"));
 
         viewport = new FitViewport(Constants.DIFFICULTY_WORLD_SIZE_WIDTH, Constants.DIFFICULTY_WORLD_SIZE_HEIGHT);
         renderer = new ShapeRenderer();
@@ -261,6 +274,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                         labelArrayList.get(index2).setVisible(false);
                         labelArrayList.get(index3).setVisible(false);
                         labelArrayList.get(index4).setVisible(false);
+                        if(flagSound)
+                            mp3Line.play();
                     }
                 }
 
@@ -282,6 +297,8 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                         labelArrayList.get(ind2).setVisible(false);
                         labelArrayList.get(ind3).setVisible(false);
                         labelArrayList.get(ind4).setVisible(false);
+                        if(flagSound)
+                            mp3Line.play();
                     }
                 }
             }
@@ -354,7 +371,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
 
     @Override
     public void hide() {
-
+        this.mp3Music.stop();
     }
 
     @Override
