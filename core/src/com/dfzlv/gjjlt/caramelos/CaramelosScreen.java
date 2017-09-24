@@ -312,6 +312,7 @@ public class CaramelosScreen extends InputAdapter implements Screen {
                             mp3Line.play();
                         Random random = new Random();
                         labelLine.setColor(new Color(random.nextFloat(),random.nextFloat(),random.nextFloat(),1.0f));
+
                     }
                 }
             }
